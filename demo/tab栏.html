@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>tab</title>
+    <style>
+    .box{
+        position:positive;
+    }
+        .box li
+        {
+         width:100px;
+         height:50px;
+         border:1px solid #ddd;
+
+         list-style:none;
+        }
+
+        .red,.yellow,.blue{
+            width:500px;
+            height:500px;
+            position:absolute;
+            left:150px;
+            top:0;
+        }
+        .red{
+        background-color:red;
+
+        }
+        <!--li:nth-of-type(1):hover{-->
+        <!--background-color:red;-->
+        <!--}-->
+        .yellow{
+        background-color:yellow;
+        }
+        <!--li:nth-of-type(2):hover{-->
+         <!--background-color:yellow;-->
+        <!--}-->
+        .blue{
+         background-color:blue;
+        }
+        <!--li:nth-of-type(3):hover{-->
+         <!--background-color:blue;-->
+        <!--}-->
+.hover{
+background-color:#ddd;
+}
+    </style>
+</head>
+<body>
+<div class="box">
+    <ul>
+        <li>red</li>
+        <li>yellow</li>
+        <li>blue</li>
+    </ul>
+    <div class="red"></div>
+    <div class="yellow"></div>
+    <div class="blue"></div>
+</div>
+<script src="jquery-1.11.1.min.js"></script>
+<script>
+
+$(function(){
+
+
+$('.box div:not(:first)').hide();
+
+ $('ul li').click(function(){
+    var index = $('.box ul li').index(this);
+    $('.box div').eq(index).show()
+    .siblings("div").hide();
+ }).hover(function(){
+ $(this).addClass('hover');
+ },function(){
+ $(this).removeClass("hover");})
+})
+
+</script>
+</body>
+</html>
