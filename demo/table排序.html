@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>排序</title>
+    <style>
+        th,td{
+            border: 1px solid #ddd ;
+            text-align: center;
+        }
+        
+        .arrow{
+            width: 0;
+            height: 0;
+            display: inline-block;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid #000;
+        }
+        .toggle{
+            transform: rotate(180deg);
+        }
+       .wf{
+           color: transparent;
+          text-indent: -0.5em;
+       }
+
+        i{
+            color: #000;
+        }
+
+    </style>
+</head>
+<body>
+    <table id="tableSort">
+        <thead>
+        <tr>
+            <th>
+                规则
+            </th>
+
+            <th type="string" class="dateTime">
+                最后更新时间
+                <span class="arrow"></span>
+            </th>
+            <th type="number" class="dateTime">
+               是否启用
+                <span class="arrow"></span>
+            </th>
+            <th>操作</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+
+            <td>主营业务成本</td>
+
+            <td>2009-10</td>
+            <td class="wf">1<i>是</i></td>
+            <td>编辑</td>
+        </tr>
+        <tr>
+            <td>应收款审核</td>
+            <td>2009-09</td>
+            <td class="wf">0<i>否</i></td>
+            <td>编辑</td>
+        </tr>
+        <tr>
+            <td>比率极端优秀</td>
+
+            <td>
+                2008-10
+            </td>
+            <td class="wf">1<i>是</i></td>
+            <td>编辑</td>
+        </tr>
+        <tr>
+
+            <td>销售成本与销售收入</td>
+            <td>2008-10</td>
+            <td class="wf">0<i>否</i></td>
+            <td>编辑</td>
+
+        </tr>
+        <tr>
+
+            <td>设计模式之禅</td>
+            <td>2011-12</td>
+            <td class="wf">1<i>是</i></td>
+            <td>编辑</td>
+
+        </tr>
+        <tr>
+
+            <td>哈哈哈</td>
+            <td>2014-11</td>
+            <td class="wf">0<i>否</i></td>
+            <td>编辑</td>
+
+        </tr>
+        <tr>
+            <td>呵呵呵</td>
+            <td>2013-11</td>
+            <td class="wf">0<i>否</i></td>
+            <td>编辑</td>
+        </tr>
+        <tr>
+
+            <td>ffff</td>
+            <td>2011-11</td>
+            <td class="wf">0<i>否</i></td>
+            <td>编辑</td>
+
+        </tr>
+        </tbody>
+    </table>
+
+<script src="jquery-1.8.3.min.js"></script>
+<script>
+    $(function () {
+        var tableObject = $('#tableSort');
+        var tbHead = tableObject.children('thead');
+        var tbHeadTh = tbHead.find('tr .dateTime');
+        var tbBody = tableObject.children('tbody');
+        var tbBodyTr = tbBody.find('tr');
+        var sortIndex = -1;
+        /*点击带有箭头的th可以进行排序*/
+        tbHeadTh.each(function () {
+            var thisIndex = tbHeadTh.index($(this))+1;
+            $(this).click(function () {
+                var dataType = $(this).attr("type");
+              $(this).children('.arrow').toggleClass('toggle');
+                checkColumnValue(thisIndex, dataType);
+            });
+        });
+        //对表格排序
+        function checkColumnValue(index, type) {
+            var trsValue = new Array();
+            tbBodyTr.each(function () {
+                var tds = $(this).find('td');
+                trsValue.push(type + ".separator" + $(tds[index]).html() + ".separator" + $(this).html());
+                $(this).html("");
+            });
+           console.log(trsValue);
+            var len = trsValue.length;
+            if (index == sortIndex) {
+                trsValue.reverse();
+            } else {
+                for (var i = 0; i < len; i++) {
+                    type = trsValue[i].split(".separator")[0];
+                    for (var j = i + 1; j < len; j++) {
+                        value1 = trsValue[i].split(".separator")[1];
+                        value2 = trsValue[j].split(".separator")[1];
+                        if (type == "number") {
+                            if (parseFloat(value1) > parseFloat(value2)) {
+                                var temp = trsValue[j];
+                                trsValue[j] = trsValue[i];
+                                trsValue[i] = temp;
+                            }
+                        } else {
+                            if (value1.localeCompare(value2) > 0) {//该方法不兼容谷歌浏览器
+                                var temp = trsValue[j];
+                                trsValue[j] = trsValue[i];
+                                trsValue[i] = temp;
+                            }
+                        }
+                    }
+                }
+            }
+            for (var i = 0; i < len; i++) {
+                $("tbody tr:eq(" + i + ")").html(trsValue[i].split(".separator")[2]);
+            }
+            sortIndex = index;
+        }
+
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
